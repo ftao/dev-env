@@ -1,0 +1,9 @@
+---
+
+- hosts: localhost
+  roles:
+    - vim
+    - role:  openvpn-static-client
+      become: yes
+      tags:
+        - vpn

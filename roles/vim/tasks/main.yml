@@ -1,0 +1,44 @@
+---
+
+- name: install vim related packages
+  apt: name={{ item }} state=present 
+  with_items: 
+    - vim-nox
+    - silversearcher-ag
+  tags:
+    - vim-package
+  become: yes
+
+- name: setup pathogen required directory
+  file: path="~/.vim/{{ item }}" state=directory
+  with_items:
+    - bundle
+    - autoload
+
+# https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
+- name: install pathogen 
+  copy: src="autoload/pathogen.vim"  dest="~/.vim/autoload/pathogen.vim"
+
+- name: clone plugins 
+  git: 
+    dest: "~/.vim/bundle/{{ item.name }}"
+    repo: "{{ item.repo }}"
+    depth: 1
+  with_items:
+    - name: python-mode
+      repo: https://github.com/klen/python-mode.git
+    - name: molokai
+      repo: https://github.com/tomasr/molokai.git
+    - name: vim-surround
+      repo: https://github.com/tpope/vim-surround.git
+    - name: command-t
+      repo: https://github.com/wincent/command-t.git
+    - name: ack.vim
+      repo: https://github.com/mileszs/ack.vim.git
+  tags:
+    - vim-plugin
+
+- name: install vimrc
+  template: src=_vimrc  dest="~/.vimrc"
+  tags:
+    - vim-vimrc
