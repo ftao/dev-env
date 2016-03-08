@@ -35,6 +35,8 @@
       repo: https://github.com/wincent/command-t.git
     - name: ack.vim
       repo: https://github.com/mileszs/ack.vim.git
+    - name: minibufexpl.vim
+      repo: https://github.com/fholgado/minibufexpl.vim.git
   tags:
     - vim-plugin
 
